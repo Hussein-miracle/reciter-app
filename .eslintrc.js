@@ -21,7 +21,7 @@ module.exports = {
     'linebreak-style': 0,
     'global-require': 0,
     'vue/multi-word-component-names': 0,
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['error', { code: 400 }],
   },
 
   overrides: [

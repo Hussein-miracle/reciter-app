@@ -2,12 +2,12 @@
   <div>
     <app-header/>
   <!-- Introduction -->
-  <section class="mb-8 py-20 text-white text-center relative bg-purple-700">
+  <section class="mb-8 py-20 text-white text-center relative bg-purple-500 -z-5">
 
-    <div class="absolute inset-0 w-full h-full bg-contain introduction-bg"
+    <div class="absolute inset-0 w-full h-full bg-contain introduction-bg "
       style="background-image: url(assets/img/header.png) "></div>
 
-    <div class="container mx-auto">
+    <div class="container mx-auto ">
       <div class="text-white main-header-content">
         <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
         <p class="w-full md:w-8/12 mx-auto">

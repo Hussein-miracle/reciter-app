@@ -10,7 +10,7 @@
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
           <li>
-            <a class="px-2 text-white" href="#" @click.prevent="toggleAuth">Login / Register</a>
+            <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal">Login / Register</a>
           </li>
           <li>
             <a class="px-2 text-white" href="#">Manage</a>
@@ -22,12 +22,22 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'Header',
   methods: {
-    toggleAuth() {
-      this.$store.commit('toggleAuthModal');
-    },
+    // this is the way to change a state in vuex using the mutations funct directly without having to create another funct to call the functions in the mutations object
+    ...mapMutations(['toggleAuthModal']),
+    // this is the way to change a state in vuex using the mutations funct and committing a mutation
+    // toggleAuth() {
+    //   this.$store.commit('toggleAuthModal');
+    // },
+    // this is the way to change a state in vuex by access the state directly
+    // toggleMod() {
+    //   this.$store.state.authModalShow = !this.$store.state.authModalShow;
+    //   console.log(this.$store.state.authModalShow, 'store');
+    // },
   },
 };
 </script>
