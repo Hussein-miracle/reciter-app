@@ -19,6 +19,7 @@ a:hover {
 
 .top-neg-8 {
   top: -8px;
+  transform: translateX(-4.5px) translateY(-1px);
 } 
 
 .player-song-info {
@@ -69,7 +70,7 @@ input[type="file"]{
 .music-bg {
   animation: slide 50s linear infinite;
   will-change: background-position;
-  background-image: url(/assets/theme/img/song-header.png);
+  background-image: url(./img/song-header.png);
 }
 
 @keyframes progress-bar-stripes {
