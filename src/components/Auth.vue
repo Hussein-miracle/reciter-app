@@ -42,95 +42,10 @@
             </li>
           </ul>
           <!-- Login Form -->
-          <vee-form v-show="tab === 'login'">
-            <!-- Email -->
-            <div class="mb-3">
-              <label class="inline-block mb-2" for="email">Email</label>
-              <input type="email" id="email" name="email"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Email" />
-            </div>
-            <!-- Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2" for="password">Password</label>
-              <input type="password" id="password"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Password" />
-            </div>
-            <button type="submit"
-              class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition
-                hover:bg-purple-700">
-              Submit
-            </button>
-          </vee-form>
+          <login :tab="tab" />
           <!-- Registration Form -->
-          <VeeForm v-show="tab === 'register'"  :validation-schema='shema'>
-            <!-- Name -->
-            <div class="mb-3">
-              <label class="inline-block mb-2"  for="name">Name</label>
-              <VeeField type="text" id="name" name='name'
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Name"/>
-                <ErrorMessage class="text-red-600" name='name'/>
-            </div>
-            <!-- Email -->
-            <div class="mb-3">
-              <label class="inline-block mb-2" for="reg-email">Email</label>
-              <input type="email" id="reg-email"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Email" />
-            </div>
-            <!-- Age -->
-            <div class="mb-3">
-              <label class="inline-block mb-2"  for="age">Age</label>
-              <input type="number" id="age"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded" />
-            </div>
-            <!-- Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2" for="reg-password">Password</label>
-              <input type="password" id="reg-password"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Password" />
-            </div>
-            <!-- Confirm Password -->
-            <div class="mb-3">
-              <label class="inline-block mb-2" for="reg-password-confirm">Confirm Password</label>
-              <input type="password" id="reg-password-confirm"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Confirm Password" />
-            </div>
-            <!-- Country -->
-            <div class="mb-3">
-              <label class="inline-block mb-2"  for="country">Country</label>
-              <select
-              id="country"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                  duration-500 focus:outline-none focus:border-black rounded">
-                <option value="Nigeria">Nigeria</option>
-                <option value="USA">USA</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Germany">Germany</option>
-              </select>
-            </div>
-            <!-- TOS -->
-            <div class="mb-3 pl-6">
-              <input type="checkbox" class="w-4 h-4 float-left -ml-6 mt-1 rounded"  id="service" />
-              <label class="inline-block" for="service" >Accept terms of service</label>
-            </div>
-            <button type="submit"
-              class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition
-                hover:bg-purple-700">
-              Submit
-            </button>
-          </VeeForm>
+
+          <registration :tab="tab"/>
 
         </div>
       </div>
@@ -140,21 +55,18 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import Registration from './Registration.vue';
+import Login from './Login.vue';
 
 export default {
   name: 'Auth',
+  components: {
+    Registration,
+    Login,
+  },
   data() {
     return {
       tab: 'login',
-      schema: {
-        name: 'required',
-        email: '',
-        age: '',
-        password: '',
-        confirm_password: '',
-        country: '',
-        tos: '',
-      },
     };
   },
   computed: {
