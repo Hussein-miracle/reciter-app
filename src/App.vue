@@ -271,6 +271,10 @@ export default {
     AppHeader,
     AuthModal,
   },
+  created() {
+    this.$store.dispatch('init_login');
+    // console.log(this.$store, 'store in app');
+  },
 };
 </script>
 <style>

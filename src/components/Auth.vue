@@ -42,10 +42,10 @@
             </li>
           </ul>
           <!-- Login Form -->
-          <login :tab="tab" />
+          <login :tab="tab"  />
           <!-- Registration Form -->
 
-          <registration :tab="tab"/>
+          <registration :tab="tab" :modalToggle="toggleAuthModal"/>
 
         </div>
       </div>

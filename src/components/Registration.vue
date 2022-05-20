@@ -83,10 +83,17 @@
 
 <script>
 // import * as yup from 'yup';
+// import { useStore } from 'vuex';
+// import { useStore,mapMutations } from 'vuex';
 
+// const {
+//   auth, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp,
+// } = firebase;
+// const store = useStore();
+// console.log(store, 'store');
 export default {
   name: 'Registration',
-  props: ['tab'],
+  props: ['tab', 'modalToggle'],
   data() {
     return {
       schema: {
@@ -119,18 +126,30 @@ export default {
     };
   },
   methods: {
-    register(values) {
-      console.log(values, 'registration form values');
+    async register(values) {
+      // debugger;
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alert_variant = 'bg-blue-500';
-      this.reg_alert_msg = 'please wait your account is being submitted';
+      this.reg_alert_msg = 'Please wait your account is being submitted...';
+      try {
+        // console.log(userCredentials, 'user creds');
+        await this.$store.dispatch('register', values);
+        // console.log(userCredentials.user.currentUser, 'current user');
+        // if (userCredentials.user) {
+        //   this.$store.commit('setCurrentUser', userCredentials);
 
-      this.reg_alert_variant = 'bg-green-500';
-      this.reg_alert_msg = 'Success! Your account has been created';
-      // console.log()
-      console.log(values, 'registration form values');
+        this.reg_alert_variant = 'bg-green-500';
+        this.reg_alert_msg = 'Success! Your account has been created';
+        // }
+      } catch (err) {
+        this.reg_alert_variant = 'bg-red-500';
+        this.reg_in_submission = !true;
+        this.reg_alert_msg = 'There was an unexpected error submitting your account,Please try again later.';
+        console.log(err, 'error submitting your account');
+      }
     },
+
   },
 };
 </script>
