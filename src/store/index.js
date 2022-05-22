@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import firebaseData from '@/includes/firebase';
+// import router from '@/router';//this causes dependency cycle which is bad code;
 
 const {
   auth, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, signInWithEmailAndPassword, signOut,
@@ -83,9 +84,13 @@ export default createStore({
       commit('toggleAuthModal');
     },
     signout: async ({ commit }) => {
+      // const { route, router } = payload;
       try {
         await signOut(auth);
         commit('toggleAuth');
+        // if (route.meta.requiresAuth) {
+        //   router.push({ name: 'home' });
+        // }
       } catch (err) {
         console.log(err);
       }

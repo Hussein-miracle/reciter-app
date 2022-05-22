@@ -3,10 +3,18 @@ a {
 }
 
 /* text-yellow-500 */
-a:hover {
-  color: #F59E0B;
+a:hover{
+  color: #F59E0B ;
   text-decoration: none;
 }
+/* a:active {
+  color: red !important;
+  text-decoration: none;
+} */
+/* a:visited {
+  color: deeppink !important;
+  text-decoration: none;
+}  */
 
 .text-orange {
   color: #F59E0B !important;

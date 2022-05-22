@@ -15,8 +15,8 @@ const { auth, onAuthStateChanged } = firebaseFunctions;
 
 let app = null;
 
-onAuthStateChanged(auth, (user) => {
-  console.log(user, 'user');
+onAuthStateChanged(auth, () => {
+  // console.log(user, 'user');
   if (app === null) {
     app = createApp(App);
     app.use(store);

@@ -6,6 +6,9 @@ import {
 import {
   getFirestore, collection, addDoc, serverTimestamp,
 } from 'firebase/firestore';
+import {
+  getStorage, ref, uploadBytesResumable, getDownloadURL,
+} from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,6 +30,8 @@ const auth = getAuth(app);
 
 // console.log(auth, 'auth');
 
+const storage = getStorage(app);
+
 const firestoreDb = getFirestore(app);
 
 // console.log(firestore, 'firestore');
@@ -34,5 +39,5 @@ const firestoreDb = getFirestore(app);
 const usersCollection = collection(firestoreDb, 'users');
 
 export default {
-  auth, firestoreDb, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+  auth, firestoreDb, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut, storage, ref, uploadBytesResumable, getDownloadURL,
 };
