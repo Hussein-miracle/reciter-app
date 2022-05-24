@@ -3,7 +3,7 @@
   <header id="header" class="bg-gray-700">
     <nav class="container mx-auto flex justify-start items-center py-5 px-4">
       <!-- App Name -->
-      <router-link class="text-white font-bold uppercase text-2xl mr-4" exact-active-class="no-active" :to="{name:'home'}">Music</router-link>
+      <router-link class="text-white font-bold uppercase text-2xl mr-4" exact-active-class="no-active" :to="{name:'home'}">Reciter</router-link>
 
       <div class="flex flex-grow items-center">
         <!-- Primary Navigation -->
@@ -60,7 +60,7 @@ export default {
         router: this.$router,
         route: this.$route,
       });
-      console.log(this.$route, 'in header');
+      // console.log(this.$route, 'in header');
 
       // if (this.$route.meta.requiresAuth) {
       //   this.$router.push({ name: 'home' });

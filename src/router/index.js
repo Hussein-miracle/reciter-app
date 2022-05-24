@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Manage from '@/views/Manage.vue';
 import Home from '@/views/Home.vue';
+// import Manage from '@/views/Manage.vue';
+import Song from '@/views/Song.vue';
 import store from '@/store';
+// chunking
+// const Song = () => (import('@/views/Song.vue'));
+const Manage = () => (import('@/views/Manage.vue'));
 
 const routes = [
   {
@@ -28,6 +32,11 @@ const routes = [
   //   redirect: { name: 'manage' },
   // },
   {
+    path: '/song/:id',
+    name: 'song',
+    component: Song,
+  },
+  {
     path: '/:catchAll(.*)*',
     redirect: { name: 'home' },
   },
@@ -39,9 +48,9 @@ const router = createRouter({
   linkExactActiveClass: 'text-yellow-500',
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   // console.log(to.matched, 'to mstched in router beforeEach ');
-  console.log(from, 'from in router beforeEach ');
+  // console.log(from, 'from in router beforeEach ');
   // console.log('next() in router beforeEach ');
   if (!to.matched.some((record) => record.meta.requiresAuth)) {
     next();

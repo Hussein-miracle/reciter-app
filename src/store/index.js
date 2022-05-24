@@ -1,16 +1,26 @@
 import { createStore } from 'vuex';
+import { Howl } from 'howler';
 import firebaseData from '@/includes/firebase';
-// import router from '@/router';//this causes dependency cycle which is bad code;
+import helper from '@/includes/helper';
 
+// import router from '@/router';//this causes dependency cycle which is bad code;
+// console.log(helper);
 const {
   auth, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, signInWithEmailAndPassword, signOut,
 } = firebaseData;
+
+// const { formatTime } = helper;
 
 export default createStore({
   state: {
     authModalShow: false,
     currentUser: null,
     userLoggedIn: false,
+    currentSong: {},
+    sound: {},
+    seek: '00:00',
+    duration: '00:00',
+    playerProgress: '0%',
   },
   mutations: {
     // must be sync always
@@ -26,10 +36,28 @@ export default createStore({
     toggleAuth: (state) => {
       state.userLoggedIn = !state.userLoggedIn;
     },
+    newSong(state, payload) {
+      state.currentSong = payload;
+      state.sound = new Howl({
+        src: [payload.url],
+        html5: true,
+      });
+    },
+    updatePosition(state) {
+      state.seek = helper.formatTime(state.sound.seek());
+      state.duration = helper.formatTime(state.sound.duration());
+      state.playerProgress = `${(state.sound.seek() / state.sound.duration()) * 100}%`;
+    },
   },
   getters: {
     // modalShow: (state) => state.authModalShow,
+    playing: (state) => {
+      if (state.sound.playing) {
+        return state.sound.playing();
+      }
 
+      return false;
+    },
   },
   actions: {
     // can be async or synchronous
@@ -94,6 +122,63 @@ export default createStore({
       } catch (err) {
         console.log(err);
       }
+    },
+    async newSong(context, payload) {
+      const { commit, state, dispatch } = context;
+      // console.log(commit, 'commit');
+      // console.log(context, 'new song context in store');
+      // console.log(payload, 'new song payload in store');
+      if (state.sound instanceof Howl) {
+        state.sound.unload();
+      }
+
+      commit('newSong', payload);
+      state.sound.play();
+      console.log(state.sound, 'state.sound');
+
+      state.sound.on('play', () => {
+        requestAnimationFrame(() => {
+          dispatch('progress');
+        });
+      });
+    },
+    async toggleAudio({ state }) {
+      // eslint-disable-next-line no-useless-return
+      if (!state.sound.playing) {
+        return;
+      }
+
+      if (state.sound.playing()) {
+        state.sound.pause();
+      } else {
+        state.sound.play();
+      }
+    },
+    progress({ commit, state, dispatch }) {
+      commit('updatePosition');
+      if (state.sound.playing()) {
+        requestAnimationFrame(() => {
+          dispatch('progress');
+        });
+      }
+    },
+    updateSeek({ state }, payload) {
+      if (!state.sound.playing) return;
+
+      const { x, width } = payload.currentTarget.getBoundingClientRect();
+      const clickX = payload.clientX - x;
+      // const width = 560;
+
+      const percentage = (clickX / width);
+      // console.log(clickX, 'clickX');
+      // console.log(x, 'x');
+      this.playerProgress = `${percentage * 100}%`;
+
+      const seconds = state.sound.duration() * percentage;
+      state.sound.seek(seconds);
+      state.sound.once('seek', () => {
+        this.dispatch('progress');
+      });
     },
   },
 });

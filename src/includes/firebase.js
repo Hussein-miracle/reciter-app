@@ -4,10 +4,10 @@ import {
   getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, serverTimestamp,
+  getFirestore, collection, addDoc, serverTimestamp, getDocs, where, query, doc, updateDoc, onSnapshot, deleteDoc, limit, startAfter, orderBy, getDoc, setDoc,
 } from 'firebase/firestore';
 import {
-  getStorage, ref, uploadBytesResumable, getDownloadURL,
+  getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject,
 } from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -37,7 +37,9 @@ const firestoreDb = getFirestore(app);
 // console.log(firestore, 'firestore');
 
 const usersCollection = collection(firestoreDb, 'users');
+const songsCollection = collection(firestoreDb, 'songs');
+const commentsCollection = collection(firestoreDb, 'comments');
 
 export default {
-  auth, firestoreDb, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut, storage, ref, uploadBytesResumable, getDownloadURL,
+  auth, firestoreDb, createUserWithEmailAndPassword, usersCollection, addDoc, serverTimestamp, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut, storage, ref, uploadBytesResumable, getDownloadURL, songsCollection, getDocs, where, query, doc, updateDoc, onSnapshot, deleteObject, deleteDoc, limit, startAfter, orderBy, getDoc, collection, commentsCollection, setDoc,
 };
