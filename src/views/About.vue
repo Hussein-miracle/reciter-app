@@ -9,7 +9,7 @@ import dummyModule from '@/store/modules/dummy';
 
 export default {
   name: 'AboutPage',
-  created() {
+  beforeCreated() {
     this.$store.registerModule('dummy', dummyModule);
   },
 };

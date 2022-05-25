@@ -45,7 +45,13 @@ export default {
   name: 'Header',
   computed: {
     ...mapState({
-      user: (state) => state.auth.userLoggedIn,
+      // eslint-disable-next-line consistent-return
+      user: (state) => {
+        // console.log(state, 'state auth in headr');
+        if (state.auth) {
+          return state.auth.userLoggedIn;
+        }
+      },
     }),
     computeLocale() {
       return this.$i18n.locale === 'fr' ? 'French' : 'English';

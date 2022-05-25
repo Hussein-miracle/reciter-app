@@ -72,7 +72,10 @@ export default {
   computed: {
     // this is how to map when using modules
     ...mapState({
-      modalShow: (state) => state.auth.authModalShow,
+      modalShow: (state) => {
+        console.log(state.auth, 'state auth in AUth.vue');
+        return state.auth.authModalShow;
+      },
     }),
     // this is how to map when not using modules
     // ...mapState(['authModalShow']),

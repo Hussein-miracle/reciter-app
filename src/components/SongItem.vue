@@ -1,9 +1,9 @@
 <template>
         <li class="flex justify-between items-center p-3 pl-6 cursor-pointer transition
-          duration-300 hover:bg-gray-50">
+          duration-300 hover:bg-gray-50 example" :class="`song-id-${song.id}`">
           <div>
             <router-link :to="{ name: 'song' , params:{ id : song.id} }" class="font-bold block text-gray-600">{{song.modified_name}}</router-link>
-            <span class="text-gray-500 text-sm">{{song.modified_name.split('.')[0]}}</span>
+            <span class="text-gray-500 text-sm">{{song.modified_name}}</span>
           </div>
 
           <div class="text-gray-600 text-lg">
