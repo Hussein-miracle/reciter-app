@@ -131,7 +131,7 @@ export default {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alert_variant = 'bg-blue-500';
-      this.reg_alert_msg = 'Please wait your account is being submitted...';
+      this.reg_alert_msg = 'Please wait your account is being created...';
       try {
         // console.log(userCredentials, 'user creds');
         await this.$store.dispatch('register', values);
@@ -139,15 +139,18 @@ export default {
         // if (userCredentials.user) {
         //   this.$store.commit('setCurrentUser', userCredentials);
 
-        this.reg_alert_variant = 'bg-green-500';
-        this.reg_alert_msg = 'Success! Your account has been created';
         // }
       } catch (err) {
         this.reg_alert_variant = 'bg-red-500';
         this.reg_in_submission = !true;
-        this.reg_alert_msg = 'There was an unexpected error submitting your account,Please try again later.';
-        console.log(err, 'error submitting your account');
+        this.reg_alert_msg = 'There was an unexpected error creating your account,Please try again later.';
+        // console.log(err, 'error creating your account');
+        return;
       }
+
+      this.reg_alert_variant = 'bg-green-500';
+      this.reg_alert_msg = 'Success! Your account has been created👍.';
+      window.location.reload();
     },
 
   },

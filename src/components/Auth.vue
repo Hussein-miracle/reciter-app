@@ -70,13 +70,17 @@ export default {
     };
   },
   computed: {
+    // this is how to map when using modules
     ...mapState({
-      modalShow: 'authModalShow',
+      modalShow: (state) => state.auth.authModalShow,
     }),
+    // this is how to map when not using modules
     // ...mapState(['authModalShow']),
   },
   methods: {
+    // this is how to map when not using modules
     ...mapMutations(['toggleAuthModal']),
+
   },
 };
 </script>

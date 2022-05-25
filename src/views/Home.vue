@@ -6,7 +6,7 @@
       style="background-image: url(assets/img/header.png)"></div>
     <div class="container mx-auto">
       <div class="text-white main-header-content">
-        <h1 class="font-bold text-5xl mb-5">Listen to the Holy Quran Chapters by Naseer Al-Qatami.</h1>
+        <h1 class="font-bold text-5xl mb-5">{{$t('home.listen')}} Chapters by Naseer Al-Qatami.</h1>
         <p class="w-full md:w-8/12 mx-auto">
           This is an act of ibadah may Allah SWT accept it.
           Thanks for visiting too,i really appreciate and enjoin you to use it more  and ask me to upload if there's a chapter you need.
@@ -15,13 +15,13 @@
     </div>
 
     <img class="relative block mx-auto mt-5 -mb-20 w-auto max-w-full"
-      src="assets/img/introduction-music.png" alt="intro-music-img" />
+      src="assets/img/introduction-music.png" alt="intro-music" />
   </section>
 
   <!-- Main Content -->
   <section class="container mx-auto">
     <div class="bg-white rounded border border-gray-200 relative flex flex-col">
-      <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200" v-icon.yellow="'headphones-alt'">
+      <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200" v-icon-secondary="{ icon: 'headphones-alt', right: true }"  v-icon.left.yellow="'headphones-alt'">
         <span class="card-title">Songs</span>
         <!-- ICONS -->
       </div>
@@ -38,6 +38,7 @@
 import fireFunctions from '@/includes/firebase';
 import SongItem from '@/components/SongItem.vue';
 // import { startAfter } from '@firebase/firestore';
+import IconSecondary from '@/directives/icon-secondary';
 
 const {
   songsCollection, getDocs, query, limit, startAfter, orderBy, getDoc, doc,
@@ -47,6 +48,9 @@ export default {
   name: 'Home',
   components: {
     SongItem,
+  },
+  directives: {
+    'icon-secondary': IconSecondary,
   },
   data() {
     return {
@@ -68,6 +72,8 @@ export default {
       if (this.pendingRequests) {
         return;
       }
+
+      this.pendingRequest = true;
 
       let querySnapshot;
 

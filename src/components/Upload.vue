@@ -71,10 +71,21 @@ export default {
       // console.log(e, 'upload/file input  event');
       this.is_dragover = false;
       const files = e.dataTransfer ? [...e.dataTransfer.files] : [...e.target.files];
-      console.log(files, 'files');
+      // console.log(files, 'files');
       files.forEach((file) => {
         if (file.type !== 'audio/mpeg') return;
 
+        if (!navigator.onLine) {
+          this.uploads.push({
+            uploadTask: {},
+            upload_progress: 100,
+            name: file.name,
+            variant: 'bg-red-400',
+            icon: 'fas fa-times',
+            text_class: 'text-red-400',
+          });
+          return;
+        }
         // console.log(file, 'file');
 
         // const storageRef = ref(storage, 'songs');
@@ -98,7 +109,6 @@ export default {
           icon: 'fas fa-spinner fa-spin',
           variant: 'bg-blue-400',
           text_class: 'text-black-400',
-          srcUrl: '',
         });
         const uploadIndex = uploadsLength - 1;
         // Note: here using the Array.prototype.find method isn't very scalable as it's a loop function,so using an access method of O(1) is better;
@@ -112,15 +122,15 @@ export default {
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             this.uploads[uploadIndex].upload_progress = progress;
-            console.log(`Upload is ${progress}% done`);
+            // console.log(`Upload is ${progress}% done`);
             switch (snapshot.state) {
               case 'paused':
                 this.uploads[uploadIndex].upload_running = false;
-                console.log('Upload is paused');
+                // console.log('Upload is paused');
                 break;
               case 'running':
                 this.uploads[uploadIndex].upload_running = true;
-                console.log(`${file.name} Upload is running`);
+                // console.log(`${file.name} Upload is running`);
                 break;
               default:
                 break;
@@ -135,18 +145,18 @@ export default {
             switch (error.code) {
               case 'storage/unauthorized':
                 // User doesn't have permission to access the object
-                console.log('User can\'t upload more than 10mb file');
+                // console.log('User can\'t upload more than 10mb file');
                 break;
               case 'storage/canceled':
                 // User canceled the upload
-                console.log('User canceled the upload');
+                // console.log('User canceled the upload');
                 break;
 
                 // ...
 
               case 'storage/unknown':
                 // Unknown error occurred, inspect error.serverResponse
-                console.log('Unknown error occurred, inspect error.serverResponse');
+                // console.log('Unknown error occurred, inspect error.serverResponse');
                 break;
               default:
                 break;

@@ -1,17 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
+// import Home from '@/views/Home.vue';
 // import Manage from '@/views/Manage.vue';
-import Song from '@/views/Song.vue';
+// import Song from '@/views/Song.vue';
 import store from '@/store';
 // chunking
-// const Song = () => (import('@/views/Song.vue'));
+const Home = () => (import('@/views/Home.vue'));
+const Song = () => (import('@/views/Song.vue'));
 const Manage = () => (import('@/views/Manage.vue'));
+const About = () => (import('@/views/About.vue'));
 
 const routes = [
   {
     name: 'home',
     path: '/',
     component: Home,
+  },
+  {
+    name: 'about',
+    path: '/about',
+    component: About,
   },
   {
     name: 'manage',
@@ -27,10 +34,10 @@ const routes = [
       requiresAuth: true,
     },
   },
-  // {
-  //   path: '/manage',
-  //   redirect: { name: 'manage' },
-  // },
+  {
+    path: '/manage',
+    redirect: { name: 'manage' },
+  },
   {
     path: '/song/:id',
     name: 'song',
@@ -57,7 +64,7 @@ router.beforeEach((to, _, next) => {
     return;
   }
 
-  if (store.state.userLoggedIn) {
+  if (store.state.auth.userLoggedIn) {
     next();
   } else {
     next({ name: 'home' });

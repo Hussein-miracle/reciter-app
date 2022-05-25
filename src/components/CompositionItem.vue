@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     async edit(values) {
-      console.log(values, 'song edited');
+      // console.log(values, 'song edited');
       // const { modified_name: modifiedName } = values;
       this.song_in_submission = true;
       this.show_alert = true;
@@ -112,7 +112,7 @@ export default {
         //   console.log(this.song, 'current song update');
         // });
       } catch (err) {
-        console.log(err, 'song update error');
+        // console.log(err, 'song update error');
         this.alert_variant = 'bg-red-500';
         this.alert_msg = 'Unable to update song data';
         return;
@@ -138,10 +138,10 @@ export default {
         const docRef = doc(songsCollection, `${this.music.id}`);
         await deleteDoc(docRef);
         this.handleDeleteSong(this.index);
-        console.log(`${this.music.original_name} deleted successfully`);
+        // console.log(`${this.music.original_name} deleted successfully`);
         // File deleted successfully
       } catch (error) {
-        console.log(error, 'error deleting the file');
+        // console.log(error, 'error deleting the file');
         // Uh-oh, an error occurred!
       }
     },

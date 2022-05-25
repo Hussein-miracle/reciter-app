@@ -1,10 +1,11 @@
+/* eslint-disable eqeqeq */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import {
   getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, serverTimestamp, getDocs, where, query, doc, updateDoc, onSnapshot, deleteDoc, limit, startAfter, orderBy, getDoc, setDoc,
+  getFirestore, collection, addDoc, serverTimestamp, getDocs, where, query, doc, updateDoc, onSnapshot, deleteDoc, limit, startAfter, orderBy, getDoc, setDoc, enableIndexedDbPersistence,
 } from 'firebase/firestore';
 import {
   getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject,
@@ -35,6 +36,19 @@ const storage = getStorage(app);
 const firestoreDb = getFirestore(app);
 
 // console.log(firestore, 'firestore');
+enableIndexedDbPersistence(firestoreDb);
+// .catch((err) => {
+//   // if (err.code == 'failed-precondition') {
+//   //   // Multiple tabs open, persistence can only be enabled
+//   //   // in one tab at a a time.
+//   //   // ...
+//   // } else if (err.code == 'unimplemented') {
+//   //   // The current browser does not support all of the
+//   //   // features required to enable persistence
+//   //   // ...
+//   // }
+//   // console.log(`Firebase persistence error ${err.code}`);
+// });
 
 const usersCollection = collection(firestoreDb, 'users');
 const songsCollection = collection(firestoreDb, 'songs');

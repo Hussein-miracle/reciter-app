@@ -1,10 +1,11 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable vuejs-accessibility/form-control-has-label */
 <template>
   <main>
     <!-- Music Header -->
   <section class="w-full mb-8 py-14 text-center text-white relative">
     <div class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
-      style="background-image: url(/assets/img/song-header.png)">
+      style="background-image: url(assets/img/song-header.png)">
     </div>
     <div class="container mx-auto flex items-center">
       <!-- Play/Pause Button -->
@@ -16,6 +17,7 @@
         <!-- Song Info -->
         <div class="text-3xl font-bold">{{song.modified_name}}</div>
         <div>{{song.genre}}</div>
+        <div class="song-price">{{$n(1, 'currency','ja')}}</div>
       </div>
     </div>
   </section>
@@ -24,7 +26,7 @@
     <div class="bg-white rounded border border-gray-200 relative flex flex-col">
       <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
         <!-- Comment Count -->
-        <span class="card-title">Comments ({{song.comment_count}})</span>
+        <span class="card-title">{{$tc('song.comment_count',{count: song.comment_count})}}</span>
         <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
       </div>
       <div class="p-6">
@@ -92,30 +94,39 @@ export default {
     };
   },
   // eslint-disable-next-line no-empty-function
-  async created() {
-    const songDoc = await getDoc(doc(songsCollection, this.$route.params.id));
-    if (!songDoc.exists()) {
-      this.$router.push({ name: 'home' });
-      return;
-    }
+  async beforeRouteEnter(to, from, next) {
+    const songDoc = await getDoc(doc(songsCollection, to.params.id));
 
-    await this.getComments();
+    next((vm) => {
+      if (!songDoc.exists()) {
+        vm.$router.push({ name: 'home' });
+        return;
+      }
 
-    const { sort } = this.$route.query;
-    this.sort = sort === '1' || sort === '2' ? sort : 1;
+      vm.getComments();
 
-    this.song = { ...songDoc.data(), id: songDoc.id };
-    // console.log(this.song, 'song in route');
+      const { sort } = vm.$route.query;
+      // eslint-disable-next-line no-param-reassign
+      vm.sort = sort === '1' || sort === '2' ? sort : 1;
+
+      // eslint-disable-next-line no-param-reassign
+      vm.song = { ...songDoc.data(), id: songDoc.id };
+      // console.log(this.song, 'song in route');
+    });
   },
   methods: {
+    // this is how to map when not using modules
     ...mapActions(['newSong']),
+    // ...mapActions({
+    //   newSong: (state) => state.player.newSong,
+    // }),
     async addComment(value, context) {
       const { resetForm } = context;
       this.comment_in_submission = true;
       this.comment_show_alert = true;
       this.comment_alert_variant = 'bg-blue-500';
       this.comment_alert_msg = 'Please wait your comment is being submitted';
-      console.log(context, 'context in comment form');
+      // console.log(context, 'context in comment form');
 
       const comment = {
         content: value.comment,
@@ -139,7 +150,7 @@ export default {
         this.comment_show_alert = true;
         this.comment_alert_variant = 'bg-red-500';
         this.comment_alert_msg = 'Unable to send comment';
-        console.error(err, 'No!,unable can\'t  comment');
+        // console.error(err, 'No!,unable can\'t  comment');
         return;
       }
 
@@ -168,7 +179,12 @@ export default {
 
   },
   computed: {
-    ...mapState(['userLoggedIn']),
+    // // this is how to map when not using modules
+    // ...mapState(['userLoggedIn']),
+    // this is how to map when using modules
+    ...mapState({
+      userLoggedIn: (state) => state.auth.userLoggedIn,
+    }),
     sortedComments() {
       return this.comments.slice().sort((a, b) => {
         if (this.sort === '1') {

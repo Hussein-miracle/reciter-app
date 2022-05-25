@@ -1,3 +1,4 @@
+/* eslint-disable vue/return-in-computed-property */
 <template>
       <!-- Header -->
   <header id="header" class="bg-gray-700">
@@ -9,6 +10,9 @@
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
+          <li >
+            <router-link class="px-2 text-white"  :to="{name:'about'}">About</router-link>
+          </li>
           <li v-if="!user">
             <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal">Login / Register</a>
           </li>
@@ -21,6 +25,12 @@
           </li>
           </template>
 
+        </ul>
+
+        <ul class="flex flex-row mt-1 ml-auto">
+          <li>
+            <a class="px-2 text-white" href="#" @click.prevent="changeLocale">{{computeLocale}}</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -35,8 +45,11 @@ export default {
   name: 'Header',
   computed: {
     ...mapState({
-      user: 'userLoggedIn',
+      user: (state) => state.auth.userLoggedIn,
     }),
+    computeLocale() {
+      return this.$i18n.locale === 'fr' ? 'French' : 'English';
+    },
     // ...mapState(['authModalShow']),
   },
   methods: {
@@ -65,6 +78,10 @@ export default {
       // if (this.$route.meta.requiresAuth) {
       //   this.$router.push({ name: 'home' });
       // }
+    },
+    changeLocale() {
+      // eslint-disable-next-line no-unused-expressions
+      this.$i18n.locale = this.$i18n.locale === 'fr' ? 'en' : 'fr';
     },
   },
 };
